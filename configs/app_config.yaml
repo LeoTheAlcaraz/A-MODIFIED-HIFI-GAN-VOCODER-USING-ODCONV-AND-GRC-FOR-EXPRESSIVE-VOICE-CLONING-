@@ -1,0 +1,33 @@
+app:
+  debug: false
+  name: Real-Time Voice Translation
+  version: 1.0.0
+audio:
+  channels: 1
+  chunk_size: 1024
+  format: int16
+  sample_rate: 16000
+models:
+  asr:
+    device: cuda
+    name: facebook/wav2vec2-large-xlsr-53
+  translation:
+    device: cuda
+    name: Helsinki-NLP/opus-mt-en-es
+  tts:
+    device: cuda
+    name: facebook/fastspeech2-en-ljspeech
+  vocoder:
+    device: cuda
+    path: models/vocoder/hifigan_modified
+translation:
+  default_source: en
+  default_target: es
+  supported_languages:
+    en: English
+    es: Spanish
+web:
+  cors_origins:
+  - '*'
+  host: 127.0.0.1
+  port: 8000

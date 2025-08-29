@@ -1,0 +1,157 @@
+# Evaluation Configuration for Modified HiFi-GAN with Expressive Voice Cloning
+
+# Model Paths
+model_paths:
+  # Modified HiFi-GAN (Your contribution)
+  hifigan_modified: "models/trained/vocoder/modified_hifigan.pth"
+  
+  # Baseline HiFi-GAN (for comparison)
+  hifigan_baseline: "models/trained/vocoder/baseline_hifigan.pth"
+  
+  # Speaker encoder (ECAPA-TDNN)
+  speaker_encoder: "models/speaker_embedding/ecapa_tdnn.pth"
+  
+  # Emotion encoder (Emotion2Vec)
+  emotion_encoder: "models/emotion_embedding/emotion2vec.pth"
+  
+  # ASR model for BLEU calculation
+  asr_model: "facebook/wav2vec2-large-xlsr-53"
+
+# Evaluation Settings
+evaluation:
+  # Audio processing
+  sample_rate: 16000
+  hop_length: 256
+  win_length: 1024
+  n_mels: 80
+  n_fft: 1024
+  f_min: 0
+  f_max: 8000
+  
+  # Batch processing
+  batch_size: 8
+  num_workers: 4
+  
+  # Device
+  device: "cuda"  # or "cpu"
+
+# Metrics Configuration
+metrics:
+  # Speaker Similarity (SIM)
+  sim:
+    threshold: 0.7
+    method: "cosine_similarity"
+    
+  # ASR-BLEU
+  asr_bleu:
+    n_gram: 4
+    smoothing: "method1"
+    
+  # Average Lagging
+  lagging:
+    window_ms: 1000
+    min_lagging: 0
+    max_lagging: 5000
+    
+  # Emotion Accuracy
+  emotion:
+    num_classes: 8
+    threshold: 0.5
+
+# Dataset Configuration
+datasets:
+  # Test data directory
+  test_dir: "D:/Thesis Tool - Datasets/CVSS-T/test"
+  
+  # Validation data directory
+  val_dir: "D:/Thesis Tool - Datasets/CVSS-T/validation"
+  
+  # Reference data
+  reference_dir: "D:/Thesis Tool - Datasets/CVSS-T/references"
+
+# Output Configuration
+output:
+  # Results directory
+  results_dir: "evaluation/results"
+  
+  # Generated samples directory
+  samples_dir: "evaluation/samples"
+  
+  # Detailed logs
+  logs_dir: "evaluation/logs"
+  
+  # Metrics breakdown
+  metrics_breakdown: true
+  
+  # Save audio samples
+  save_samples: true
+  num_samples: 10
+
+# Evaluation Modes
+modes:
+  # Single sample evaluation
+  single_sample: false
+  
+  # Batch evaluation
+  batch_evaluation: true
+  
+  # Comparative evaluation (modified vs baseline)
+  comparative: true
+  
+  # Ablation study
+  ablation_study: false
+
+# Comparative Analysis
+comparison:
+  # Models to compare
+  models:
+    - "modified_hifigan"
+    - "baseline_hifigan"
+  
+  # Metrics to compare
+  metrics:
+    - "sim_score"
+    - "asr_bleu_score"
+    - "lagging_time"
+    - "emotion_accuracy"
+  
+  # Statistical significance
+  statistical_test: "wilcoxon"
+  confidence_level: 0.95
+
+# Detailed Analysis
+analysis:
+  # Per-speaker analysis
+  per_speaker: true
+  
+  # Per-emotion analysis
+  per_emotion: true
+  
+  # Per-language analysis
+  per_language: true
+  
+  # Error analysis
+  error_analysis: true
+  
+  # Quality assessment
+  quality_assessment: true
+
+# Reporting
+reporting:
+  # Generate detailed report
+  detailed_report: true
+  
+  # Generate summary report
+  summary_report: true
+  
+  # Generate comparison plots
+  plots: true
+  
+  # Export results to different formats
+  export_formats:
+    - "json"
+    - "csv"
+    - "html"
+  
+  # Include audio samples in report
+  include_audio: true 

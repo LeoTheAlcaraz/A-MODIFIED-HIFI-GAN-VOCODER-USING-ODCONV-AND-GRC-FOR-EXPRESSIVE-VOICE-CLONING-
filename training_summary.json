@@ -1,0 +1,77 @@
+{
+  "training_summary": {
+    "status": "completed",
+    "start_time": "2025-08-27T13:08:40.397566",
+    "end_time": "2025-08-27T13:36:13.846384",
+    "duration": "0:27:33.448818",
+    "device": "cpu",
+    "results": {
+      "asr": {
+        "asr_training": {
+          "status": "completed",
+          "timestamp": "2025-08-27T13:24:04.162145",
+          "models": [
+            "english_asr",
+            "spanish_asr"
+          ],
+          "config": {
+            "data_path": "E:/Thesis_Datasets/CommonVoice_v4",
+            "output_path": "models/asr",
+            "batch_size": 8,
+            "learning_rate": 0.0001,
+            "num_epochs": 10,
+            "model_name": "facebook/wav2vec2-large-960h-lv60-self"
+          },
+          "samples_processed": {
+            "english": 1000,
+            "spanish": 1000
+          }
+        }
+      },
+      "translation": {
+        "translation_training": {
+          "status": "completed",
+          "timestamp": "2025-08-27T13:35:32.865564",
+          "models": [
+            "en_to_es",
+            "es_to_en"
+          ],
+          "config": {
+            "data_path": "E:/Thesis_Datasets/CommonVoice_v4",
+            "output_path": "models/translation",
+            "batch_size": 16,
+            "learning_rate": 5e-05,
+            "num_epochs": 5,
+            "model_name": "Helsinki-NLP/opus-mt-en-es"
+          },
+          "samples_processed": {
+            "en_to_es": 2000,
+            "es_to_en": 2000
+          }
+        }
+      },
+      "tts": {
+        "tts_training": {
+          "status": "completed",
+          "timestamp": "2025-08-27T13:36:13.626411",
+          "models": [
+            "english_tts",
+            "spanish_tts"
+          ],
+          "config": {
+            "data_path": "E:/Thesis_Datasets/CommonVoice_v4",
+            "output_path": "models/tts",
+            "batch_size": 8,
+            "learning_rate": 0.0001,
+            "num_epochs": 10,
+            "model_name": "microsoft/speecht5_tts"
+          },
+          "samples_processed": {
+            "english": 1000,
+            "spanish": 1000
+          }
+        }
+      }
+    }
+  }
+}

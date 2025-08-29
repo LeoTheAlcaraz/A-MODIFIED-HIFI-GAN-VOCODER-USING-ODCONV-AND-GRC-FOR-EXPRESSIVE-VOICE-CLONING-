@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Voice Translation</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-language"></i>
+                    <h1>Voice Translator</h1>
+                </div>
+                <div class="header-controls">
+                    <button id="settingsBtn" class="btn-secondary">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                    <button id="helpBtn" class="btn-secondary">
+                        <i class="fas fa-question-circle"></i>
+                        Help
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Language Selection -->
+            <div class="language-selector">
+                <div class="language-card">
+                    <div class="language-header">
+                        <h3>Source Language</h3>
+                        <div class="language-flag" id="sourceFlag">🇺🇸</div>
+                    </div>
+                    <select id="sourceLanguage" class="language-select">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                </div>
+
+                <div class="swap-button">
+                    <button id="swapLanguages" class="btn-swap">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                </div>
+
+                <div class="language-card">
+                    <div class="language-header">
+                        <h3>Target Language</h3>
+                        <div class="language-flag" id="targetFlag">🇪🇸</div>
+                    </div>
+                    <select id="targetLanguage" class="language-select">
+                        <option value="es">Spanish</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Translation Area -->
+            <div class="translation-area">
+                <!-- Source Text Area -->
+                <div class="text-area-container">
+                    <div class="text-area-header">
+                        <h3>Input</h3>
+                        <div class="text-controls">
+                            <button id="clearSource" class="btn-icon" title="Clear text">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button id="copySource" class="btn-icon" title="Copy text">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-area-wrapper">
+                        <textarea id="sourceText" placeholder="Type or speak your text here..." class="text-area"></textarea>
+                        <div class="voice-controls">
+                            <button id="startRecording" class="btn-voice">
+                                <i class="fas fa-microphone"></i>
+                                <span>Start Recording</span>
+                            </button>
+                            <button id="stopRecording" class="btn-voice btn-voice-stop" style="display: none;">
+                                <i class="fas fa-stop"></i>
+                                <span>Stop Recording</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translation Result Area -->
+                <div class="text-area-container">
+                    <div class="text-area-header">
+                        <h3>Translation</h3>
+                        <div class="text-controls">
+                            <button id="playTranslation" class="btn-icon" title="Play audio">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button id="copyTranslation" class="btn-icon" title="Copy text">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-area-wrapper">
+                        <div id="translationText" class="text-area text-area-readonly">
+                            <div class="placeholder">Translation will appear here...</div>
+                        </div>
+                        <div class="translation-status">
+                            <div id="translationStatus" class="status-indicator">
+                                <i class="fas fa-circle"></i>
+                                <span>Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Translation Controls -->
+            <div class="realtime-controls">
+                <div class="control-group">
+                    <label class="switch">
+                        <input type="checkbox" id="realtimeMode">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="control-label">Real-time Translation</span>
+                </div>
+                <div class="control-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Enable for continuous voice translation</span>
+                </div>
+            </div>
+
+            <!-- Translation History -->
+            <div class="translation-history">
+                <div class="history-header">
+                    <h3>Recent Translations</h3>
+                    <button id="clearHistory" class="btn-secondary">Clear History</button>
+                </div>
+                <div id="historyList" class="history-list">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label>Audio Quality</label>
+                        <select id="audioQuality">
+                            <option value="low">Low (Faster)</option>
+                            <option value="medium" selected>Medium (Balanced)</option>
+                            <option value="high">High (Better Quality)</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label>Translation Speed</label>
+                        <select id="translationSpeed">
+                            <option value="fast">Fast (Less Accurate)</option>
+                            <option value="balanced" selected>Balanced</option>
+                            <option value="accurate">Accurate (Slower)</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label>Voice Type</label>
+                        <select id="voiceType">
+                            <option value="natural">Natural</option>
+                            <option value="cloned" selected>Voice Cloned</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="helpModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>How to Use</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h3>Text Translation</h3>
+                        <p>Type or paste text in the input area and it will be automatically translated.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3>Voice Translation</h3>
+                        <p>Click the microphone button to start recording. Speak clearly and the system will translate your speech in real-time.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3>Real-time Mode</h3>
+                        <p>Enable real-time mode for continuous voice translation without stopping.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3>Language Switching</h3>
+                        <p>Use the language selectors to change source and target languages, or click the swap button to quickly switch.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Loading translation models...</p>
+            </div>
+        </div>
+
+        <!-- Error Toast -->
+        <div id="errorToast" class="toast toast-error" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorMessage">An error occurred</span>
+            <button class="toast-close">&times;</button>
+        </div>
+
+        <!-- Success Toast -->
+        <div id="successToast" class="toast toast-success" style="display: none;">
+            <i class="fas fa-check-circle"></i>
+            <span id="successMessage">Operation completed successfully</span>
+            <button class="toast-close">&times;</button>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html> 

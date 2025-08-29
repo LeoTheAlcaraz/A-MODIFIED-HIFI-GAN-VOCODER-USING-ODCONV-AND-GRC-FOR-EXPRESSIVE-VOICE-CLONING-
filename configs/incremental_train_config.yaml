@@ -1,0 +1,77 @@
+# Incremental Training Configuration
+# Optimized for Acer Nitro AN515-52 with 16GB RAM and Intel i7-8750H
+
+# ASR Model Configuration
+asr:
+  model_name: "facebook/wav2vec2-base"
+  batch_size: 4  # Reduced for 16GB RAM
+  learning_rate: 1e-4
+  num_epochs: 3  # Reduced epochs per chunk
+  warmup_steps: 100
+  save_steps: 500
+  eval_steps: 250
+  gradient_accumulation_steps: 8  # Simulate larger batch size
+  max_grad_norm: 1.0
+  weight_decay: 0.01
+  dataloader_pin_memory: false  # Reduce memory usage
+  remove_unused_columns: false
+
+# Translation Model Configuration
+translation:
+  model_name: "Helsinki-NLP/opus-mt-en-es"
+  batch_size: 8  # Reduced for 16GB RAM
+  learning_rate: 5e-5
+  num_epochs: 2  # Reduced epochs per chunk
+  warmup_steps: 50
+  save_steps: 250
+  eval_steps: 125
+  gradient_accumulation_steps: 4
+  max_grad_norm: 1.0
+  weight_decay: 0.01
+  dataloader_pin_memory: false
+  remove_unused_columns: false
+
+# TTS Model Configuration (if needed)
+tts:
+  model_name: "microsoft/speecht5_tts"
+  batch_size: 4  # Reduced for 16GB RAM
+  learning_rate: 1e-4
+  num_epochs: 5  # Reduced epochs per chunk
+  warmup_steps: 200
+  save_steps: 1000
+  eval_steps: 500
+  gradient_accumulation_steps: 8
+  max_grad_norm: 1.0
+  weight_decay: 0.01
+  dataloader_pin_memory: false
+  remove_unused_columns: false
+
+# Vocoder Configuration (if needed)
+vocoder:
+  model_path: "models/vocoder/hifigan_modified"
+  batch_size: 8  # Reduced for 16GB RAM
+  learning_rate: 2e-4
+  num_epochs: 50  # Reduced epochs per chunk
+  warmup_steps: 500
+  save_steps: 2500
+  eval_steps: 1250
+  gradient_accumulation_steps: 4
+  max_grad_norm: 1.0
+  weight_decay: 0.01
+  dataloader_pin_memory: false
+  remove_unused_columns: false
+
+# Incremental Training Settings
+incremental:
+  chunk_size: 0.25  # 25% chunks
+  num_chunks: 4
+  save_checkpoints: true
+  resume_from_checkpoint: true
+  memory_cleanup: true
+
+# Hardware Optimization
+hardware:
+  use_mixed_precision: true  # Use FP16 if available
+  gradient_checkpointing: false  # Can enable if memory is still tight
+  max_memory_usage: "14GB"  # Leave 2GB for system
+  num_workers: 2  # Reduced for limited CPU cores
